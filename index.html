@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team AI — Data & ML Innovators</title>
+  <meta name="description" content="Meet our elite team of Data Analysts and AI/ML Engineers — Sudharsan R V, Praveen Kumar, Nissanth S P, and Narendra A." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #040812;
+      --surface: rgba(255,255,255,0.04);
+      --surface-hover: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.08);
+      --border-bright: rgba(255,255,255,0.18);
+      --accent1: #6c63ff;
+      --accent2: #00d4aa;
+      --accent3: #ff6b9d;
+      --accent4: #f59e0b;
+      --text-primary: #f0f4ff;
+      --text-secondary: rgba(240,244,255,0.6);
+      --text-muted: rgba(240,244,255,0.35);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── ANIMATED BACKGROUND ── */
+    .bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-canvas::before {
+      content: '';
+      position: absolute;
+      width: 900px; height: 900px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(108,99,255,0.18) 0%, transparent 70%);
+      top: -300px; left: -200px;
+      animation: pulse1 8s ease-in-out infinite alternate;
+    }
+    .bg-canvas::after {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,212,170,0.14) 0%, transparent 70%);
+      bottom: -200px; right: -100px;
+      animation: pulse2 10s ease-in-out infinite alternate;
+    }
+
+    .bg-orb3 {
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,107,157,0.1) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      animation: pulse3 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse1 { from { transform: scale(1) translate(0,0); } to { transform: scale(1.2) translate(60px, 40px); } }
+    @keyframes pulse2 { from { transform: scale(1) translate(0,0); } to { transform: scale(1.3) translate(-50px, -30px); } }
+    @keyframes pulse3 { from { transform: translate(-50%,-50%) scale(1); } to { transform: translate(-50%,-50%) scale(1.4); } }
+
+    /* Stars */
+    .stars {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 20% 15%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 25%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 40% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 70%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 60% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 45%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 92% 40%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 55% 85%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 5% 50%, rgba(255,255,255,0.5) 0%, transparent 100%);
+    }
+
+    /* ── LAYOUT ── */
+    .page { position: relative; z-index: 1; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 18px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(4,8,18,0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800; font-size: 1.3rem;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .nav-brand span { -webkit-text-fill-color: transparent; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      color: var(--text-secondary); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500; letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(108,99,255,0.15);
+      border: 1px solid rgba(108,99,255,0.3);
+      border-radius: 100px;
+      padding: 8px 20px;
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--accent1); letter-spacing: 1.5px; text-transform: uppercase;
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-badge-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent2);
+      animation: blink 1.4s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 50%, var(--accent3) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-secondary);
+      max-width: 600px; line-height: 1.7;
+      animation: fadeUp 0.8s 0.2s ease both;
+      margin-bottom: 48px;
+    }
+
+    .hero-stats {
+      display: flex; gap: 48px; justify-content: center;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 0.78rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+
+    .scroll-hint {
+      margin-top: 64px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--text-muted); font-size: 0.75rem; letter-spacing: 1px;
+      text-transform: uppercase;
+      animation: fadeUp 0.8s 0.5s ease both;
+    }
+    .scroll-arrow {
+      width: 24px; height: 24px;
+      border-right: 2px solid var(--text-muted);
+      border-bottom: 2px solid var(--text-muted);
+      transform: rotate(45deg);
+      animation: scrollBounce 1.5s ease-in-out infinite;
+    }
+    @keyframes scrollBounce { 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(6px)} }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── SECTION ── */
+    section { padding: 100px 24px; max-width: 1300px; margin: 0 auto; }
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--accent2);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .section-sub { color: var(--text-secondary); font-size: 1.05rem; max-width: 520px; line-height: 1.7; margin-bottom: 64px; }
+
+    /* ── TEAM CARDS ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .member-card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s, box-shadow 0.4s;
+      animation: fadeUp 0.7s ease both;
+    }
+    .member-card:nth-child(1) { animation-delay: 0.05s; --card-accent: var(--accent1); }
+    .member-card:nth-child(2) { animation-delay: 0.15s; --card-accent: var(--accent2); }
+    .member-card:nth-child(3) { animation-delay: 0.25s; --card-accent: var(--accent3); }
+    .member-card:nth-child(4) { animation-delay: 0.35s; --card-accent: var(--accent4); }
+
+    .member-card:hover {
+      transform: translateY(-12px) scale(1.01);
+      border-color: var(--card-accent);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 60px color-mix(in srgb, var(--card-accent) 20%, transparent);
+    }
+
+    /* Glow top bar */
+    .card-glow {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--card-accent), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .member-card:hover .card-glow { opacity: 1; }
+
+    /* Photo area */
+    .card-photo-wrap {
+      position: relative;
+      height: 280px;
+      overflow: hidden;
+    }
+    .card-photo-wrap::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
+      background: linear-gradient(to top, var(--bg), transparent);
+    }
+    .card-photo {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+      transition: transform 0.6s ease;
+      filter: grayscale(20%) brightness(0.9);
+    }
+    .member-card:hover .card-photo {
+      transform: scale(1.06);
+      filter: grayscale(0%) brightness(1);
+    }
+
+    /* Number badge */
+    .card-number {
+      position: absolute; top: 16px; right: 16px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem; font-weight: 800;
+      color: var(--card-accent);
+      z-index: 2;
+    }
+
+    .card-body { padding: 24px; }
+
+    .card-role {
+      display: inline-block;
+      background: color-mix(in srgb, var(--card-accent) 15%, transparent);
+      color: var(--card-accent);
+      border: 1px solid color-mix(in srgb, var(--card-accent) 30%, transparent);
+      border-radius: 100px;
+      padding: 4px 14px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .card-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .card-bio {
+      font-size: 0.85rem; color: var(--text-secondary);
+      line-height: 1.6; margin-bottom: 20px;
+    }
+
+    /* Skills tags */
+    .card-skills {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 24px;
+    }
+    .skill-tag {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 12px;
+      font-size: 0.73rem; font-weight: 500;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .member-card:hover .skill-tag {
+      border-color: color-mix(in srgb, var(--card-accent) 40%, transparent);
+      color: var(--text-primary);
+    }
+
+    /* Card footer / links */
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+    .card-socials { display: flex; gap: 12px; }
+    .social-btn {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--text-secondary); text-decoration: none;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .social-btn:hover {
+      background: var(--card-accent);
+      border-color: var(--card-accent);
+      color: #fff;
+      transform: scale(1.1);
+    }
+    .portfolio-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--card-accent);
+      color: #fff; text-decoration: none;
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 0.8rem; font-weight: 600;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .portfolio-btn:hover { filter: brightness(1.15); transform: scale(1.04); }
+    .portfolio-btn svg { width: 14px; height: 14px; }
+
+    /* ── ABOUT SECTION ── */
+    .about-section { padding: 100px 24px; }
+    .about-inner {
+      max-width: 1300px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: center;
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-card-stack {
+      position: relative;
+      height: 420px;
+    }
+    .stack-card {
+      position: absolute;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(10px);
+    }
+    .stack-card:nth-child(1) {
+      width: 260px; top: 40px; left: 20px;
+      transform: rotate(-4deg);
+      border-color: rgba(108,99,255,0.3);
+      animation: float1 6s ease-in-out infinite;
+    }
+    .stack-card:nth-child(2) {
+      width: 240px; top: 120px; right: 10px;
+      transform: rotate(3deg);
+      border-color: rgba(0,212,170,0.3);
+      animation: float2 7s ease-in-out infinite;
+    }
+    .stack-card:nth-child(3) {
+      width: 220px; bottom: 30px; left: 60px;
+      transform: rotate(1deg);
+      border-color: rgba(255,107,157,0.3);
+      animation: float3 5s ease-in-out infinite;
+    }
+    @keyframes float1 { 0%,100%{transform:rotate(-4deg) translateY(0)} 50%{transform:rotate(-4deg) translateY(-12px)} }
+    @keyframes float2 { 0%,100%{transform:rotate(3deg) translateY(0)} 50%{transform:rotate(3deg) translateY(-8px)} }
+    @keyframes float3 { 0%,100%{transform:rotate(1deg) translateY(0)} 50%{transform:rotate(1deg) translateY(-10px)} }
+
+    .stack-icon { font-size: 1.8rem; margin-bottom: 12px; }
+    .stack-title { font-family: 'Outfit',sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+    .stack-desc { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
+
+    .about-text { }
+    .about-text .section-title { margin-bottom: 20px; }
+    .about-list { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+    .about-list li {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px;
+      transition: all 0.2s;
+    }
+    .about-list li:hover { border-color: var(--border-bright); background: var(--surface-hover); }
+    .about-list-icon {
+      width: 40px; height: 40px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .about-list-text strong { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
+    .about-list-text span { font-size: 0.82rem; color: var(--text-secondary); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative; z-index: 1;
+    }
+    footer strong { color: var(--text-secondary); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .about-inner { grid-template-columns: 1fr; gap: 48px; }
+      .about-card-stack { height: 300px; }
+      .hero-stats { gap: 28px; }
+    }
+    @media (max-width: 600px) {
+      .team-grid { grid-template-columns: 1fr; }
+      .hero h1 { letter-spacing: -1px; }
+    }
+
+    /* Intersection observer animations */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+  </style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg-canvas">
+  <div class="stars"></div>
+  <div class="bg-orb3"></div>
+</div>
+
+<!-- Navbar -->
+<nav>
+  <div class="nav-brand">⟨ Team<span>AI</span> /⟩</div>
+  <div class="nav-links">
+    <a href="#team">Team</a>
+    <a href="#about">About</a>
+    <a href="mailto:sudharsanrv2003@gmail.com">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- ── HERO ── -->
+  <div class="hero" id="home">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      K.S. Rangasamy College of Technology
+    </div>
+    <h1>
+      Where <span class="gradient-text">Data</span> Meets<br/>
+      <span class="gradient-text">Intelligence</span>
+    </h1>
+    <p class="hero-sub">
+      A passionate team of Data Analysts &amp; AI/ML Engineers building intelligent systems, 
+      predictive models, and real-world solutions that make a difference.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Innovators</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">20+</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">15+</div>
+        <div class="stat-label">Certifications</div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Meet the team</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </div>
+
+  <!-- ── TEAM ── -->
+  <section id="team">
+    <div class="section-label reveal">Our Team</div>
+    <h2 class="section-title reveal reveal-delay-1">The Brilliant Minds</h2>
+    <p class="section-sub reveal reveal-delay-2">
+      Four driven engineers blending data science, machine learning, and creative problem-solving to build tomorrow's technology today.
+    </p>
+
+    <div class="team-grid">
+
+      <!-- Sudharsan -->
+      <div class="member-card reveal">
+        <div class="card-glow"></div>
+        <div class="card-number">01</div>
+        <div class="card-photo-wrap">
+          <img class="card-photo" src="sudharsan.jpg" alt="Sudharsan R V" />
+        </div>
+        <div class="card-body">
+          <div class="card-role">Data Analyst</div>
+          <div class="card-name">Sudharsan R V</div>
+          <p class="card-bio">
+            Premium data analyst with expertise in transforming complex datasets into compelling visual stories. Passionate about business intelligence and predictive analytics.
+          </p>
+          <div class="card-skills">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Power BI</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">Machine Learning</span>
+            <span class="skill-tag">Tableau</span>
+          </div>
+          <div class="card-footer">
+            <div class="card-socials">
+              <a class="social-btn" href="https://www.linkedin.com/in/sudharsan-r-v/" target="_blank" title="LinkedIn" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+              <a class="social-btn" href="mailto:sudharsanrv2003@gmail.com" title="Email" aria-label="Email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </a>
+            </div>
+            <a class="portfolio-btn" href="https://sudharsanrv.vercel.app/" target="_blank">
+              Portfolio
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Praveen Kumar -->
+      <div class="member-card reveal reveal-delay-1">
+        <div class="card-glow"></div>
+        <div class="card-number">02</div>
+        <div class="card-photo-wrap">
+          <img class="card-photo" src="praveenkumar.jpeg" alt="Praveen Kumar" />
+        </div>
+        <div class="card-body">
+          <div class="card-role">Data Analyst</div>
+          <div class="card-name">Praveen Kumar B</div>
+          <p class="card-bio">
+            Data-driven analyst who thrives on uncovering hidden patterns in data. Skilled in end-to-end analytics pipelines from data collection to impactful dashboards.
+          </p>
+          <div class="card-skills">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">Excel</span>
+            <span class="skill-tag">Power BI</span>
+            <span class="skill-tag">Statistics</span>
+          </div>
+          <div class="card-footer">
+            <div class="card-socials">
+              <a class="social-btn" href="https://www.linkedin.com/in/praveennkumar/" target="_blank" title="LinkedIn" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+              <a class="social-btn" href="mailto:praveenkumar@example.com" title="Email" aria-label="Email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </a>
+            </div>
+            <a class="portfolio-btn" href="https://praveennkumar.vercel.app/" target="_blank">
+              Portfolio
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nissanth -->
+      <div class="member-card reveal reveal-delay-2">
+        <div class="card-glow"></div>
+        <div class="card-number">03</div>
+        <div class="card-photo-wrap">
+          <img class="card-photo" src="nissanth.jpeg" alt="Nissanth S P" />
+        </div>
+        <div class="card-body">
+          <div class="card-role">AI/ML Engineer</div>
+          <div class="card-name">Nissanth S P</div>
+          <p class="card-bio">
+            Enthusiastic AI/ML student building intelligent systems that solve real-world problems. From gesture recognition to agri-tech platforms — driven by impact.
+          </p>
+          <div class="card-skills">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Machine Learning</span>
+            <span class="skill-tag">NLP</span>
+            <span class="skill-tag">Mediapipe</span>
+            <span class="skill-tag">IoT</span>
+          </div>
+          <div class="card-footer">
+            <div class="card-socials">
+              <a class="social-btn" href="https://www.linkedin.com/in/nissanth-s-p-041b94289/" target="_blank" title="LinkedIn" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+              <a class="social-btn" href="mailto:nissanth2k6@gmail.com" title="Email" aria-label="Email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </a>
+              <a class="social-btn" href="https://codolio.com/profile/Nissanth" target="_blank" title="Codolio" aria-label="Codolio">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </a>
+            </div>
+            <a class="portfolio-btn" href="https://nissanth.vercel.app/" target="_blank">
+              Portfolio
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Narendra -->
+      <div class="member-card reveal reveal-delay-3">
+        <div class="card-glow"></div>
+        <div class="card-number">04</div>
+        <div class="card-photo-wrap">
+          <img class="card-photo" src="naren.jpeg" alt="Narendra A" />
+        </div>
+        <div class="card-body">
+          <div class="card-role">AI/ML & VR Engineer</div>
+          <div class="card-name">Narendra A</div>
+          <p class="card-bio">
+            Building intelligent medical simulations and AR/VR systems in collaboration with IIT Madras. Specializes in computer vision, speech recognition, and immersive tech.
+          </p>
+          <div class="card-skills">
+            <span class="skill-tag">Unity / VR</span>
+            <span class="skill-tag">Computer Vision</span>
+            <span class="skill-tag">OpenAI Whisper</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">IIT Madras</span>
+          </div>
+          <div class="card-footer">
+            <div class="card-socials">
+              <a class="social-btn" href="https://www.linkedin.com/in/narendra-anbazhagan" target="_blank" title="LinkedIn" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+              <a class="social-btn" href="mailto:narendra.a2116@gmail.com" title="Email" aria-label="Email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </a>
+            </div>
+            <a class="portfolio-btn" href="https://narendra-portfolio-six.vercel.app/" target="_blank">
+              Portfolio
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /team-grid -->
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <div class="about-section" id="about">
+    <div class="about-inner">
+      <div class="about-visual reveal">
+        <div class="about-card-stack">
+          <div class="stack-card">
+            <div class="stack-icon">🧠</div>
+            <div class="stack-title">Machine Learning</div>
+            <div class="stack-desc">End-to-end ML pipelines — from raw data to deployed intelligent models.</div>
+          </div>
+          <div class="stack-card">
+            <div class="stack-icon">📊</div>
+            <div class="stack-title">Data Analytics</div>
+            <div class="stack-desc">Transforming raw numbers into actionable business insights and dashboards.</div>
+          </div>
+          <div class="stack-card">
+            <div class="stack-icon">🚀</div>
+            <div class="stack-title">Innovation</div>
+            <div class="stack-desc">Hackathon finalists, IIT Madras collaborators, and serial project builders.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <div class="section-label reveal">Who We Are</div>
+        <h2 class="section-title reveal reveal-delay-1">Built to Innovate,<br/>Driven by Data</h2>
+        <p class="section-sub reveal reveal-delay-1">
+          We are a tight-knit team from KSRCT — united by curiosity and a shared love for AI-driven innovation.
+        </p>
+        <ul class="about-list">
+          <li class="reveal reveal-delay-1">
+            <div class="about-list-icon" style="background:rgba(108,99,255,0.15);">🎓</div>
+            <div class="about-list-text">
+              <strong>KSRCT — AI &amp; ML Department</strong>
+              <span>K.S. Rangasamy College of Technology, B.E. in Artificial Intelligence &amp; Machine Learning</span>
+            </div>
+          </li>
+          <li class="reveal reveal-delay-2">
+            <div class="about-list-icon" style="background:rgba(0,212,170,0.15);">🤝</div>
+            <div class="about-list-text">
+              <strong>IIT Madras Collaboration</strong>
+              <span>Partnering with IIT Madras for medical VR simulation and low-cost training systems.</span>
+            </div>
+          </li>
+          <li class="reveal reveal-delay-3">
+            <div class="about-list-icon" style="background:rgba(255,107,157,0.15);">🏆</div>
+            <div class="about-list-text">
+              <strong>Hackathon Finalists &amp; Award Winners</strong>
+              <span>ICT Academy Hackathon finalists, sports champions, and certification holders across AI, cloud &amp; automation.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div style="font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:12px;background:linear-gradient(135deg,#6c63ff,#00d4aa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">⟨ Team AI /⟩</div>
+    <p>K.S. Rangasamy College of Technology &nbsp;•&nbsp; Artificial Intelligence &amp; Machine Learning</p>
+    <p style="margin-top:8px;">Crafted with passion by <strong>Sudharsan, Praveen, Nissanth &amp; Narendra</strong> 🚀</p>
+  </footer>
+
+</div><!-- /page -->
+
+<script>
+  // Intersection Observer for scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Parallax on mouse move for hero
+  document.addEventListener('mousemove', (e) => {
+    const mx = (e.clientX / window.innerWidth - 0.5) * 20;
+    const my = (e.clientY / window.innerHeight - 0.5) * 20;
+    document.querySelector('.bg-orb3').style.transform =
+      `translate(calc(-50% + ${mx}px), calc(-50% + ${my}px))`;
+  });
+
+  // Tilt effect on cards
+  document.querySelectorAll('.member-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const tiltX = ((y - cy) / cy) * 5;
+      const tiltY = ((x - cx) / cx) * -5;
+      card.style.transform = `translateY(-12px) scale(1.01) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+      card.style.transformStyle = 'preserve-3d';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+</script>
+
+</body>
+</html>
