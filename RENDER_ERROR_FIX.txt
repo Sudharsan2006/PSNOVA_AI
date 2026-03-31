@@ -1,0 +1,98 @@
+RENDER DEPLOYMENT ERROR - TROUBLESHOOTING CHECKLIST
+====================================================================
+
+Common errors and how to fix them:
+
+ERROR 1: "Root Directory" is wrong
+-------------------------------------------------------------------
+❌ WRONG: 
+   - "server" (just the folder name alone)
+   - "/server" (with forward slash)
+   - "C:\Users\...\server" (full path)
+
+✅ CORRECT:
+   - Leave it EMPTY (blank) OR
+   - Type: server
+
+FIX: Clear the Root Directory field completely and leave it BLANK
+
+
+ERROR 2: GitHub repo not authorized
+-------------------------------------------------------------------
+If you don't see your repo in the dropdown:
+   1. Click "Connect account" 
+   2. Click "Authorize Github"
+   3. Select Sudharsan2006/PSNOVA_AI
+   4. Make sure "master" branch is selected
+
+
+ERROR 3: Build or Start command is invalid
+-------------------------------------------------------------------
+✅ CORRECT values:
+   Build Command: npm install
+   Start Command: npm start
+
+❌ WRONG values:
+   - npm install . (don't add the dot)
+   - npm run start (wrong!)
+   - start (incomplete!)
+
+
+ERROR 4: Required fields missing
+-------------------------------------------------------------------
+These MUST be filled in:
+   ✅ Name: team-ai-backend
+   ✅ GitHub repo: selected and connected
+   ✅ Build Command: npm install
+   ✅ Start Command: npm start
+   ✅ Environment Variables: Add at least MONGO_URI and NODE_ENV
+
+
+ERROR 5: Plan not selected
+-------------------------------------------------------------------
+Make sure you select either:
+   - Free (takes longer, but free)
+   - Starter ($7/month, faster deploys)
+
+
+====================================================================
+COMPLETE CORRECT FORM - COPY PASTE THIS:
+====================================================================
+
+NAME: team-ai-backend
+BRANCH: master
+ROOT DIRECTORY: (LEAVE BLANK / EMPTY)
+RUNTIME: Node
+BUILD COMMAND: npm install
+START COMMAND: npm start
+PLAN: Free
+
+THEN Click "Advanced" and add ENVIRONMENT VARIABLES:
+
+1. MONGO_URI = mongodb+srv://teamai-admin:TeamAI%402024Secure@teamai-cluster.lgbumug.mongodb.net/teamai?retryWrites=true&w=majority&appName=teamai-cluster
+
+2. OPENAI_API_KEY = sk-REPLACE_WITH_YOUR_KEY
+
+3. CLIENT_URL = https://psnovaai.sudharsanrv.dev
+
+4. NODE_ENV = production
+
+5. PORT = 5000
+
+====================================================================
+STEP-BY-STEP TO FIX:
+====================================================================
+
+1. Scroll up to see ALL fields
+2. Check each field matches above exactly
+3. Look for RED ERROR BOXES under fields
+4. Fix any field with errors
+5. Click "Create Web Service" again
+
+====================================================================
+If error still shows:
+   1. Screenshot the error
+   2. Reply with what it says
+   3. I'll fix it!
+
+====================================================================

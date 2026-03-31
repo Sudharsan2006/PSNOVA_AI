@@ -32,24 +32,43 @@ Write-Host "`n"
 Write-Host "🔗 Creating service on Render..." -ForegroundColor Green
 Write-Host ""
 
-# Prepare request body
-$body = @{
-    type = "web_service"
-    name = $ServiceName
-    repo = "https://github.com/$GitHubRepo"
-    branch = "master"
-    rootDir = $RootDir
-    envVars = @(
-        @{ key = "MONGO_URI"; value = "mongodb+srv://teamai-admin:TeamAI%402024Secure@teamai-cluster.lgbumug.mongodb.net/teamai?retryWrites=true&w=majority&appName=teamai-cluster" },
-        @{ key = "OPENAI_API_KEY"; value = "sk-REPLACE_WITH_YOUR_KEY" },
-        @{ key = "CLIENT_URL"; value = "https://psnovaai.sudharsanrv.dev" },
-        @{ key = "NODE_ENV"; value = "production" },
-        @{ key = "PORT"; value = "5000" }
-    )
-    buildCommand = $BuildCmd
-    startCommand = $StartCmd
-    plan = "free"
-} | ConvertTo-Json
+# Build request body as raw JSON string to avoid PowerShell parsing issues
+$mongoUri = 'mongodb+srv://teamai-admin:TeamAI%402024Secure@teamai-cluster.lgbumug.mongodb.net/teamai?retryWrites=true&w=majority&appName=teamai-cluster'
+
+$body = @"
+{
+  "type": "web_service",
+  "name": "$ServiceName",
+  "repo": "https://github.com/$GitHubRepo",
+  "branch": "master",
+  "rootDir": "$RootDir",
+  "envVars": [
+    {
+      "key": "MONGO_URI",
+      "value": "$mongoUri"
+    },
+    {
+      "key": "OPENAI_API_KEY",
+      "value": "sk-REPLACE_WITH_YOUR_KEY"
+    },
+    {
+      "key": "CLIENT_URL",
+      "value": "https://psnovaai.sudharsanrv.dev"
+    },
+    {
+      "key": "NODE_ENV",
+      "value": "production"
+    },
+    {
+      "key": "PORT",
+      "value": "5000"
+    }
+  ],
+  "buildCommand": "$BuildCmd",
+  "startCommand": "$StartCmd",
+  "plan": "free"
+}
+"@
 
 $headers = @{
     "Authorization" = "Bearer $apiKey"
@@ -57,31 +76,46 @@ $headers = @{
 }
 
 try {
+    Write-Host "Sending request to Render API..." -ForegroundColor Cyan
+    
     $response = Invoke-WebRequest -Uri "https://api.render.com/v1/services" `
         -Method POST `
         -Headers $headers `
-        -Body $body -UseBasicParsing
+        -Body $body `
+        -UseBasicParsing
 
     $jsonResponse = $response.Content | ConvertFrom-Json
-    Write-Host $response.Content | ConvertFrom-Json | ConvertTo-Json
+    
+    Write-Host "`n✅ Response received:" -ForegroundColor Green
+    Write-Host ($response.Content | ConvertFrom-Json | ConvertTo-Json -Depth 10)
 
     if ($jsonResponse.service) {
         $serviceId = $jsonResponse.service.id
-        Write-Host "`n✅ Service created! ID: $serviceId" -ForegroundColor Green
-        Write-Host "`n⏳ Deployment starting... (This may take 5-10 minutes)" -ForegroundColor Cyan
+        
+        Write-Host "`n✅ Service created successfully!" -ForegroundColor Green
+        Write-Host "   Service ID: $serviceId"
+        Write-Host "`n⏳ Deployment starting... (This may take 5-15 minutes)" -ForegroundColor Cyan
         Write-Host "`n📊 Monitor deployment at:" -ForegroundColor Yellow
         Write-Host "   https://dashboard.render.com/services/$serviceId"
-        Write-Host "`n✨ Once complete, your backend URL will be:" -ForegroundColor Magenta
+        Write-Host "`n✨ Your backend URL will be:" -ForegroundColor Magenta
         Write-Host "   https://$ServiceName-xxxxx.onrender.com"
         Write-Host "`n"
+        Write-Host "⏳ Waiting for service to become active..." -ForegroundColor Cyan
+        Write-Host "   (Check dashboard for real-time status)`n"
+    }
+    elseif ($jsonResponse.errors) {
+        Write-Host "`n⚠️  API returned errors:" -ForegroundColor Yellow
+        Write-Host ($jsonResponse.errors | ConvertTo-Json)
+        exit 1
     }
     else {
-        Write-Host "`n❌ Failed to create service. Check your API key and try again." -ForegroundColor Red
-        Write-Host "Response: $($response.Content)" -ForegroundColor Red
+        Write-Host "`n❌ Unexpected response:" -ForegroundColor Red
+        Write-Host $response.Content
         exit 1
     }
 }
 catch {
     Write-Host "`n❌ Error: $_" -ForegroundColor Red
+    Write-Host "Check your API key and try again" -ForegroundColor Yellow
     exit 1
 }
