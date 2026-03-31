@@ -68,8 +68,10 @@ const chatWithAI = async (req, res) => {
       { role: 'user', content: trimmedMsg },
     ];
 
-    // If no API key, use fallback rule-based responses
-    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'sk-...') {
+    // If no valid API key, use fallback rule-based responses
+    const apiKey = process.env.OPENAI_API_KEY || '';
+    const hasValidKey = apiKey.startsWith('sk-') && !apiKey.startsWith('sk-REPLACE') && apiKey.length > 20;
+    if (!hasValidKey) {
       const fallback = getFallbackResponse(trimmedMsg);
       return res.status(200).json({ success: true, reply: fallback, source: 'fallback' });
     }

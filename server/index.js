@@ -27,9 +27,14 @@ app.use(helmet());
 // ── CORS ──────────────────────────────────────────────────────────────
 const allowedOrigins = [
   process.env.CLIENT_URL || 'http://localhost:5173',
+  'http://localhost:5173',
   'http://localhost:3000',
   'https://teamai.vercel.app',
+  'https://psnovaai.sudharsanrv.dev',
 ];
+
+// Also allow any Vercel preview deployment URL (*.vercel.app)
+const vercelPreviewRegex = /^https:\/\/[\w-]+\.vercel\.app$/;
 
 app.use(
   cors({
@@ -37,6 +42,7 @@ app.use(
       // Allow requests with no origin (e.g. mobile apps, curl)
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) return callback(null, true);
+      if (vercelPreviewRegex.test(origin)) return callback(null, true);
       callback(new Error(`CORS blocked: ${origin}`));
     },
     credentials: true,
