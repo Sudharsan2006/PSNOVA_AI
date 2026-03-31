@@ -12,7 +12,7 @@ import AIChat from '../components/AIChat';
 import SharedSVGFilters from '../components/SharedSVGFilters';
 import PageSparkle from '../components/PageSparkle';
 
-const API = 'https://team-ai-backend-zw75.onrender.com';
+const API = import.meta.env.VITE_API_URL || 'https://team-ai-backend-zw75.onrender.com';
 
 const Home = () => {
   const [stats, setStats] = useState(null);
