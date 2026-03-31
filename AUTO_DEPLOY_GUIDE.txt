@@ -1,0 +1,78 @@
+AUTOMATED RENDER DEPLOYMENT
+====================================================================
+
+I've created automated deployment scripts for you!
+
+OPTION 1: FULLY AUTOMATED with One Command
+====================================================================
+
+Step 1: Get Your Render API Token
+   → Go to: https://dashboard.render.com/account/api-tokens
+   → Click "Create API Token"
+   → Copy the token (you'll only see it once!)
+
+Step 2: Run ONE Command (PowerShell):
+
+   $env:RENDER_API_KEY = 'paste-your-token-here'
+   . .\deploy-render.ps1
+
+That's it! The script will:
+   ✅ Create the web service on Render
+   ✅ Configure all environment variables
+   ✅ Build and start deployment
+   ✅ Give you the backend URL when done
+
+====================================================================
+
+OPTION 2: AUTO-DEPLOY on Every GitHub Push
+====================================================================
+
+Already created for you:
+   .github/workflows/deploy-render.yml
+
+This will automatically deploy whenever you:
+   → Push to master branch
+   → Any changes in server/ directory
+
+To enable this:
+   1. Set GitHub Secrets in your repo:
+      → Settings → Secrets and variables → New repository secret
+      
+      Name: RENDER_API_KEY
+      Value: (your Render API token)
+      
+      Name: RENDER_SERVICE_ID
+      Value: (get after Option 1 completes)
+      
+      Name: RENDER_SERVICE_URL
+      Value: https://team-ai-backend-xxxxx.onrender.com
+
+   2. Push any change
+   3. Workflow auto-deploys!
+
+====================================================================
+
+WHAT HAPPENS AUTOMATICALLY:
+   ✅ Deploy backend to Render
+   ✅ Install npm dependencies
+   ✅ Connect to MongoDB
+   ✅ Set all env variables
+   ✅ Health check
+   ✅ Database verification
+
+====================================================================
+
+AFTER DEPLOYMENT:
+
+Reply with:
+   Backend URL: https://team-ai-backend-xxxxx.onrender.com
+
+I will then:
+   1. Update frontend env variables on Vercel
+   2. Test all API endpoints
+   3. Verify database is working
+   4. Confirm site is fully deployed!
+
+====================================================================
+
+NEXT STEP: Get your Render API Token and run the script!

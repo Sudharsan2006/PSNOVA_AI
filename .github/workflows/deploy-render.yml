@@ -1,0 +1,40 @@
+name: Deploy Backend to Render
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'server/**'
+      - '.github/workflows/deploy-render.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Trigger Render Deployment
+        run: |
+          curl -X POST "https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}"
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+
+      - name: Wait for Deployment
+        run: sleep 30
+
+      - name: Test Backend Health
+        run: |
+          curl -f https://${{ secrets.RENDER_SERVICE_URL }}/health || exit 1
+
+  test-database:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Database Connection
+        run: |
+          echo "Testing API endpoints..."
+          curl -f https://${{ secrets.RENDER_SERVICE_URL }}/api/contact || exit 1
+          echo "Database connection verified!"

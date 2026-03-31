@@ -1,0 +1,80 @@
+@"
+╔════════════════════════════════════════════════════════════════════╗
+║         🚀 RENDER DEPLOYMENT - AUTOMATED SETUP GUIDE              ║
+╚════════════════════════════════════════════════════════════════════╝
+
+✅ Your Render Dashboard is now open in the browser!
+✅ You are logged in - Ready to deploy!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 DEPLOYMENT CONFIGURATION:
+
+Repository:        Sudharsan2006/PSNOVA_AI
+Service Name:      team-ai-backend
+Root Directory:    server
+Build Command:     npm install
+Start Command:     npm start
+Environment:       Node.js
+Plan:              Free (or Starter for better uptime)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 MANUAL STEPS IN RENDER BROWSER:
+
+STEP 1️⃣  Click "Create New Service" → "Web Service"
+
+STEP 2️⃣  Click "Connect Account" 
+         → Authorize GitHub
+         → Select: Sudharsan2006/PSNOVA_AI
+         → Click "Connect"
+
+STEP 3️⃣  Fill in Service Details:
+         ┌────────────────────────────────────┐
+         │ NAME: team-ai-backend              │
+         │ BRANCH: master                     │
+         │ ROOT DIRECTORY: server             │
+         │ RUNTIME: Node                      │
+         │ BUILD: npm install                 │
+         │ START: npm start                   │
+         └────────────────────────────────────┘
+
+STEP 4️⃣  Click "Advanced" → Add Environment Variables:
+
+   MONGO_URI
+   mongodb+srv://teamai-admin:TeamAI%402024Secure@teamai-cluster.lgbumug.mongodb.net/teamai?retryWrites=true&w=majority&appName=teamai-cluster
+
+   OPENAI_API_KEY
+   sk-REPLACE_WITH_YOUR_KEY
+   (Get from: https://platform.openai.com/api-keys)
+
+   CLIENT_URL
+   https://psnovaai.sudharsanrv.dev
+
+   NODE_ENV
+   production
+
+   PORT
+   5000
+
+STEP 5️⃣  Click "Create Web Service"
+         ⏳ Wait 3-5 minutes for deployment
+
+STEP 6️⃣  🎉 Deployment Complete!
+         Get your Backend URL: https://team-ai-backend-xxxxx.onrender.com
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ AFTER DEPLOYMENT:
+
+Reply with:
+   Backend URL: https://team-ai-backend-xxxxx.onrender.com
+
+I will then:
+   ✅ Update frontend environment variables
+   ✅ Verify database is connected
+   ✅ Test all API endpoints
+   ✅ Confirm production site is working!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"@
