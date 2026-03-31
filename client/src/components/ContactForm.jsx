@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { RotatingBadge } from './HeroDoodle';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API = 'https://team-ai-backend-zw75.onrender.com';
 
 const saveToLocalStorage = (data) => {
   try {
