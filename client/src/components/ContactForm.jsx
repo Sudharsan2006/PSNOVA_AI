@@ -24,6 +24,12 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) return;
+    if (form.message.trim().length < 10) {
+      setStatus('error');
+      setMsgText('Message must be at least 10 characters.');
+      setTimeout(() => { setStatus('idle'); setMsgText(''); }, 4000);
+      return;
+    }
     setStatus('loading');
     try {
       await axios.post(`${API}/api/contact`, form, { 
@@ -34,7 +40,15 @@ const ContactForm = () => {
       });
       setStatus('success');
       setMsgText("Message sent! We'll get back to you soon.");
-    } catch {
+    } catch (err) {
+      // Show server validation error if it's a 400
+      if (err?.response?.status === 400 && err?.response?.data?.error) {
+        setStatus('error');
+        setMsgText(err.response.data.error);
+        setTimeout(() => { setStatus('idle'); setMsgText(''); }, 5000);
+        return;
+      }
+      // Backend unreachable → save locally
       const saved = saveToLocalStorage(form);
       if (saved) {
         setStatus('success');
@@ -116,12 +130,20 @@ const ContactForm = () => {
             <textarea id="cf-message" name="message" className="form-input form-textarea"
               placeholder="Hi team! I'd love to collaborate on..." rows={5}
               value={form.message} onChange={handleChange}
-              required disabled={status === 'loading'} />
+              required minLength={10} maxLength={2000}
+              disabled={status === 'loading'} />
+            {form.message.length > 0 && form.message.length < 10 && (
+              <small style={{ color: '#e17055', fontSize: '0.78rem', marginTop: '4px', display: 'block' }}>
+                Message must be at least 10 characters ({10 - form.message.length} more needed)
+              </small>
+            )}
           </div>
 
           <AnimatePresence>
-            {status === 'success' && (
-              <motion.div className="form-feedback"
+            {(status === 'success' || status === 'error') && (
+              <motion.div
+                className="form-feedback"
+                style={status === 'error' ? { background: 'rgba(225,112,85,0.15)', color: '#e17055', borderColor: '#e17055' } : {}}
                 initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
                 {msgText}
               </motion.div>
